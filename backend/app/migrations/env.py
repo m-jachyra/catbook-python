@@ -1,7 +1,5 @@
 from logging.config import fileConfig
 
-import os
-
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
@@ -19,22 +17,13 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = None
+from db_context.models import Base
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
-
-def get_url():
-    user = os.getenv("POSTGRES_USER", "postgres")
-    password = os.getenv("POSTGRES_PASSWORD", "Admin123")
-    server = os.getenv("POSTGRES_SERVER", "127.0.0.1:5432")
-    db = os.getenv("POSTGRES_DB", "catbook")
-    url = f"postgresql+psycopg://{user}:{password}@{server}/{db}"
-    return url
 
 
 def run_migrations_offline() -> None:
@@ -49,10 +38,9 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    print("run_migrations_offline")
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
-        url=get_url(),
+        url=url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -69,11 +57,8 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-
-    configuration = config.get_section(config.config_ini_section, {})
-    configuration["sqlalchemy.url"] = get_url()
     connectable = engine_from_config(
-        configuration,
+        config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from backend.app.app.db_context.context import Base
+from db_context.context import Base
 
 
 class User(Base):
@@ -13,7 +13,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     roles = Column(String)
 
-    cats = relationship("Cat", back="owner")
+    cats = relationship("Cat", back_populates="owner")
 
 
 class Cat(Base):
@@ -54,7 +54,7 @@ class CatImage(Base):
 class StorageFile(Base):
     __tablename__ = "storage_files"
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     url = Column(String)
 
     cat = relationship("CatImages", back_populates="cat_images")

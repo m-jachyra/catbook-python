@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .controllers import cats_controller, users_controller
+from controllers import cats_controller, users_controller
 
 router = APIRouter()
 
