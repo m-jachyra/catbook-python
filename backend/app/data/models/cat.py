@@ -10,6 +10,10 @@ class CatCreate(CatBase):
     pass
 
 
+class CatUpdate(CatBase):
+    pass
+
+
 class Cat(CatBase):
     id: int
     owner_id: int
