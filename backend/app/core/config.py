@@ -1,7 +1,8 @@
 import secrets
-from typing import List
+from typing import Any, Dict, List, Optional
 
-from pydantic import BaseSettings, AnyHttpUrl
+from pydantic import AnyHttpUrl, PostgresDsn, validator
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -12,13 +13,16 @@ class Settings(BaseSettings):
 
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
-    POSTGRES_SERVER: str = "127.0.0.1:5432"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "Admin123"
-    POSTGRES_DB: str = "catbook"
+    POSTGRES_SERVER: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+
+    SQLALCHEMY_DATABASE_URI: str = f"postgresql://postgres:Admin123@db:5432/catbook"
 
     QUEUE_URL: str = "amqp://guest@queue//"
 
     AZURE_BLOB_URL: str
+
 
 settings = Settings()

@@ -1,12 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
-
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:Admin123@host.docker.internal:5432/catbook"
+from core.config import settings
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL
+    settings.SQLALCHEMY_DATABASE_URI
 )
 
 SessionLocal = sessionmaker(autoflush=False, bind=engine)

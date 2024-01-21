@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: >
+      ash -c "alembic upgrade head &&
+              uvicorn main:app --host 0.0.0.0 --port 8888"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - app-network
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./backend/app:/app
+
+  db:
+    container_name: db
+    image: postgres:12
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER:${POSTGRES_USER}
+      - POSTGRES_PASSWORD:${POSTGRES_PASSWORD}
+      - POSTGRES_DB:${POSTGRES_DB}
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"
+
+networks:
+  app-network:
+
+volumes:
+  db-data:
