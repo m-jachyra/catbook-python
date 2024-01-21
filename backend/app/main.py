@@ -1,27 +1,14 @@
 from fastapi import FastAPI
 # from fastapi.security import OAuth2PasswordBearer
 
-# from .rest.router import router
-#from .core.config import settings
-# from .db_context.context import SessionLocal
-
+from rest.router import router
+# from .core.config import settings
 
 app = FastAPI()
 
 # oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-
-# def get_db():
-#     print("DUPA")
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
-
-
-# app.include_router(router, prefix="/")#settings.API_V1_URL)
-
+app.include_router(router, prefix="/api")#settings.API_V1_URL)
 
 @app.get("/")
 async def root():
