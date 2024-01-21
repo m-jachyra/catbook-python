@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from ..models.cat import Cat
+from db_context.models import Cat
 
 
 def get_cat(db: Session, cat_id: int):
@@ -9,4 +9,3 @@ def get_cat(db: Session, cat_id: int):
 def get_cats(db: Session, skip: int = 0, limit: int = 100):
     print("Lubie placki")
     return db.query(Cat).offset(skip).limit(limit).all()
-

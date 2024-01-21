@@ -6,8 +6,11 @@ from data.services import cats_service
 
 router = APIRouter()
 
+@router.get("/")
+def get():
+    return {"Lorem": "Ipsum"}
 
-@router.get('/')
+@router.get("/test")
 def get_list(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     cats = cats_service.get_cats(db, skip, limit)
     return cats

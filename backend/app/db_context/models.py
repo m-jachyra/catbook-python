@@ -13,8 +13,6 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     roles = Column(String)
 
-    cats = relationship("Cat", back_populates="owner")
-
 
 class Cat(Base):
     __tablename__ = "cats"
@@ -25,18 +23,12 @@ class Cat(Base):
     breed_id = Column(Integer, ForeignKey("breeds.id"))
     owner_id = Column(Integer, ForeignKey("users.id"))
 
-    breed = relationship("Breed", back_populates="breeds")
-    owner = relationship("User", back_populates="users")
-    images = relationship("CatImages", back_populates="cat_images")
-
 
 class Breed(Base):
     __tablename__ = "breeds"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-
-    cats = relationship("Cat", back_populates="breed")
 
 
 class CatImage(Base):
@@ -47,14 +39,9 @@ class CatImage(Base):
     cat_id = Column(Integer, ForeignKey("cats.id"))
     storage_file_id = Column(Integer, ForeignKey("storage_files.id"))
 
-    cat = relationship("Cat", back_populates="cats")
-    storage_file = relationship("StorageFile", back_populates="storage_files")
-
 
 class StorageFile(Base):
     __tablename__ = "storage_files"
 
     id = Column(Integer, primary_key=True, index=True)
     url = Column(String)
-
-    cat = relationship("CatImages", back_populates="cat_images")
