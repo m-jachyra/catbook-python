@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.10
 
 WORKDIR /app
 
@@ -8,4 +8,6 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./backend/app /app
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8888"]
+EXPOSE 3100
+
+CMD ["gunicorn", "main:app"]
