@@ -1,9 +1,9 @@
 from typing import Optional
 from pydantic import BaseModel, Field
 
-from .cat_image import CatImage
-from .breed import Breed
-from .user import User
+from data.cat_image.cat_image import CatImage
+from data.breed.breed import Breed
+from data.user.user import User
 
 
 class CatBase(BaseModel):

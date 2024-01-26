@@ -1,12 +1,12 @@
 from typing import List, Annotated
 
-from fastapi import APIRouter, Depends, status, Response, HTTPException, Path
+from fastapi import APIRouter, Depends, status, HTTPException, Path
 from sqlalchemy.orm import Session
 
 from db_context.context import get_db
-from data.services.cats_service import cats_service
+from data.cat.cat_service import cats_service
 
-from data.models.cat import CatCreate, CatUpdate, Cat, CatRead
+from data.cat.cat import CatCreate, CatUpdate, Cat, CatRead
 
 router = APIRouter()
 

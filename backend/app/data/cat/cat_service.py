@@ -1,11 +1,11 @@
-from typing import List, Type
+from typing import Type
 
 from fastapi import HTTPException
 from sqlalchemy.orm import Session, joinedload
 from fastapi.encoders import jsonable_encoder
 from db_context.models import Cat
 from data.base_service import BaseService
-from data.models.cat import CatCreate, CatUpdate, CatRead
+from data.cat.cat import CatCreate, CatUpdate, CatRead
 
 
 class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
