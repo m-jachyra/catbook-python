@@ -13,6 +13,8 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     roles = Column(String)
 
+    cats = relationship("Cat", back_populates="owner")
+
 
 class Cat(Base):
     __tablename__ = "cats"
@@ -23,12 +25,17 @@ class Cat(Base):
     breed_id = Column(Integer, ForeignKey("breeds.id"))
     owner_id = Column(Integer, ForeignKey("users.id"))
 
+    breed = relationship("Breed", back_populates="cats")
+    owner = relationship("User", back_populates="cats")
+
 
 class Breed(Base):
     __tablename__ = "breeds"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
+
+    cats = relationship("Cat", back_populates="breed")
 
 
 class CatImage(Base):
