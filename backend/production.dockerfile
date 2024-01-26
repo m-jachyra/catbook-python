@@ -10,4 +10,4 @@ COPY ./backend/app /app
 
 EXPOSE 8000
 
-CMD ["gunicorn", "main:app"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", ":8888", "main:app"]

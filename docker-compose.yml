@@ -3,11 +3,11 @@ version: "3.3"
 services:
   api:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/dockerfile
     command: >
       ash -c "alembic upgrade head &&
-              uvicorn main:app --host 0.0.0.0 --port 8888"
+              gunicorn -k uvicorn.workers.UvicornWorker -b :8888 main:app"
     depends_on:
       - db
     env_file:
