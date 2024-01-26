@@ -28,6 +28,13 @@ name: Build and deploy a container to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: Catbook  # set this to the name of your Azure Web App
+  AZURE_BLOB_URL: ${{ secrets.AZURE_BLOB_URL }}
+  DOMAIN: ${{ secrets.DOMAIN }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_SERVER: ${{ secrets.POSTGRES_SERVER }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
 
 on:
   push:
