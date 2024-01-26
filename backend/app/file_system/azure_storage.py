@@ -30,3 +30,4 @@ class AzureStorage:
             self.blob_client.upload_blob(data)
 
     def fetch(self, id):
+        pass
