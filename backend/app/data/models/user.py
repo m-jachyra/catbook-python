@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from .cat import Cat
+# from .cat import Cat
 
 
 class UserBase(BaseModel):
@@ -10,11 +10,15 @@ class UserCreate(UserBase):
     password: str
 
 
+class UserRead(UserBase):
+    cats: list["Cat"] = []
+    pass
+
+
 class User(UserBase):
     id: int
     username: str
     is_active: bool
-    cats: list[Cat] = []
     roles: str
 
     class Config:
