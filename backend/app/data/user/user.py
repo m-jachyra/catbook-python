@@ -6,10 +6,6 @@ class UserBase(BaseModel):
     email: str
 
 
-class UserOut(UserBase):
-    id: int
-
-
 class UserCreate(UserBase):
     password: str
 
