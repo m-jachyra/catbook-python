@@ -24,5 +24,8 @@ class Settings(BaseSettings):
 
     AZURE_BLOB_URL: str
 
+    STORAGE_DIR: str = '/app/storage/'
+    IMAGES_DIR: str = '/app/storage/images/'
+
 
 settings = Settings()

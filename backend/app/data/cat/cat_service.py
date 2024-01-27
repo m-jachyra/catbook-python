@@ -3,9 +3,9 @@ from typing import Type
 from fastapi import HTTPException
 from sqlalchemy.orm import Session, joinedload
 from fastapi.encoders import jsonable_encoder
-from db_context.models import Cat
+from db_context.models import Cat, CatImage
 from data.base_service import BaseService
-from data.cat.cat import CatCreate, CatUpdate, CatRead
+from data.cat.cat import CatCreate, CatUpdate, CatRead, CatList
 
 
 class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
@@ -17,11 +17,12 @@ class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
         db.refresh(db_bj)
         return db_bj
 
-    def get(self, db: Session, *, skip: int = 0, limit: int = 100) -> list[Type[Cat]]:
+    def get(self, db: Session, **kwargs) -> list[Type[CatList]]:
         return (
             db.query(self.model)
-            .offset(skip)
-            .limit(limit)
+            .options(joinedload(Cat.breed))
+            .options(joinedload(Cat.owner))
+            .options(joinedload(Cat.profile_image).joinedload(CatImage.storage_file))
             .all()
         )
 
@@ -52,6 +53,8 @@ class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
         return (
             db.query(self.model)
             .options(joinedload(Cat.breed))
+            .options(joinedload(Cat.owner))
+            .options(joinedload(Cat.images).joinedload(CatImage.storage_file))
             .get(cat_id)
         )
 

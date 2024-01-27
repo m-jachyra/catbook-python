@@ -24,10 +24,18 @@ class CatUpdate(CatBase):
 
 class CatRead(CatBase):
     id: int
-    images: set[CatImage] = set()
+    images: list[CatImage]
     breed: Optional["Breed"] | None = None
     owner: Optional["User"] | None = None
+    profile_image: Optional["CatImage"] | None
     pass
+
+
+class CatList(CatBase):
+    id: int
+    breed: Optional["Breed"] | None = None
+    owner: Optional["User"] | None = None
+    profile_image: Optional["CatImage"]
 
 
 class Cat(CatBase):
