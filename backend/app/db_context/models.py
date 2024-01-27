@@ -27,6 +27,18 @@ class Cat(Base):
 
     breed = relationship("Breed", back_populates="cats")
     owner = relationship("User", back_populates="cats")
+    images = relationship("CatImage",
+                          back_populates="cat",
+                          viewonly=True,
+                          primaryjoin="and_(Cat.id == CatImage.cat_id and CatImage.is_profile == False)"
+                          )
+
+    profile_image = relationship("CatImage",
+                                 back_populates="cat",
+                                 uselist=False,
+                                 viewonly=True,
+                                 primaryjoin="and_ (Cat.id == CatImage.cat_id, CatImage.is_profile == True)"
+                                 )
 
 
 class Breed(Base):
@@ -44,11 +56,17 @@ class CatImage(Base):
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String)
     cat_id = Column(Integer, ForeignKey("cats.id"))
+    is_profile = Column(Boolean, default=False)
     storage_file_id = Column(Integer, ForeignKey("storage_files.id"))
+    storage_file = relationship("StorageFile", back_populates="cat_image")
 
+    cat = relationship("Cat", back_populates="images")
 
 class StorageFile(Base):
     __tablename__ = "storage_files"
 
     id = Column(Integer, primary_key=True, index=True)
     url = Column(String)
+
+    cat_image = relationship("CatImage", back_populates="storage_file")
+
