@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-# from .cat import Cat
 
 
 class BreedBase(BaseModel):
@@ -10,8 +9,12 @@ class BreedCreate(BreedBase):
     pass
 
 
+class BreedUpdate(BreedBase):
+    pass
+
+
 class BreedRead(BreedBase):
-    cats: list["Cat"] | None = None
+    id: int
     pass
 
 

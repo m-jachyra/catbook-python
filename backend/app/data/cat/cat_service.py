@@ -26,7 +26,7 @@ class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
             .all()
         )
 
-    def update(self, db: Session, cat_id: int, obj_in: CatUpdate):
+    def update(self, db: Session, cat_id: int, obj_in: CatUpdate) -> Cat:
         obj_in_data = jsonable_encoder(obj_in)
         cat = db.query(self.model).filter(self.model.id == cat_id).first()
         if not cat:
@@ -37,7 +37,7 @@ class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
 
         db.commit()
         db.refresh(cat)
-        pass
+        return cat
 
     def delete(self, db: Session, cat_id: int):
         cat = db.query(self.model).filter(self.model.id == cat_id).first()

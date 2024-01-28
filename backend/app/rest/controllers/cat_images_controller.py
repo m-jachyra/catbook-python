@@ -3,17 +3,17 @@ from sqlalchemy.orm import Session
 from starlette import status
 from starlette.responses import FileResponse
 
+from core.config import settings
 from data.cat_image.cat_image_service import cat_images_service
 from db_context.context import get_db
 
 router = APIRouter()
 
-IMAGE_DIR = "data/storage_file/images/"
 
 
 @router.get('/{image_name}')
 def get_cat_image(image_name: str):
-    return FileResponse(IMAGE_DIR + image_name)
+    return FileResponse(settings.IMAGES_DIR + image_name)
     pass
 
 
@@ -31,7 +31,7 @@ def add_cat_profile_image(cat_id: int, db: Session = Depends(get_db), file: Uplo
 def get_cat_profile_image(cat_id: int, db: Session = Depends(get_db)):
     profile_image = cat_images_service.get_cat_profile_image(db, cat_id)
     try:
-        return FileResponse(IMAGE_DIR + profile_image.storage_file.url)
+        return FileResponse(settings.IMAGES_DIR + profile_image.storage_file.url)
     except Exception as e:
         raise HTTPException(status_code=404)
     pass
