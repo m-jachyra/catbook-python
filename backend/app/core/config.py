@@ -18,8 +18,6 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
 
-    SQLALCHEMY_DATABASE_URI: str = f"postgresql://postgres:Admin123@db:5432/catbook"
-
     QUEUE_URL: str = "amqp://guest@queue//"
 
     AZURE_BLOB_URL: str

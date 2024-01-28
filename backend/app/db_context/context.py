@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from core.config import settings
 
 engine = create_engine(
-    settings.SQLALCHEMY_DATABASE_URI
+    f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:5432/{settings.POSTGRES_DB}"
 )
 
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
