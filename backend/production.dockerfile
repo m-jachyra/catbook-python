@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./backend/app /app
 
+RUN alembic upgrade head
+
 EXPOSE 8000
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", ":8000", "main:app"]
