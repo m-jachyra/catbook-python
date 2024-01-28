@@ -25,14 +25,15 @@ def get_list(db: Session = Depends(get_db)):
 def create_cat(name: Annotated[str, Form()],
                description: Annotated[str, Form()],
                breed_id: Annotated[int, Form()],
-               images: Annotated[List[UploadFile], File()],
+               images: List[UploadFile] = File([]),
                db: Session = Depends(get_db)):
     try:
         cat_create = CatCreate(name=name, description=description, breed_id=breed_id, owner_id='1') #TODO Dodać owner id
         cat = cats_service.create(db, obj_in=cat_create)
 
-        for img in images:
-            cat_images_service.create_cat_image(db, image=img, cat_id=cat.id)
+        if images:
+            for img in images:
+                cat_images_service.create_cat_image(db, image=img, cat_id=cat.id)
         return cat
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
