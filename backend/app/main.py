@@ -1,5 +1,8 @@
 from fastapi import FastAPI
+
+from fastapi_pagination import add_pagination
 from fastapi.middleware.cors import CORSMiddleware
+
 # from fastapi.security import OAuth2PasswordBearer
 
 from rest.router import router
@@ -23,6 +26,7 @@ app.add_middleware(
 
 app.include_router(router, prefix="/api")#settings.API_V1_URL)
 
+add_pagination(app)
 
 @app.get("/")
 async def root():
