@@ -13,7 +13,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     roles = Column(String)
 
-    cats = relationship("Cat", back_populates="owner")
+    cats = relationship("Cat", back_populates="owner", cascade="all,delete")
 
 
 class Cat(Base):
@@ -22,14 +22,15 @@ class Cat(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     description = Column(String)
-    breed_id = Column(Integer, ForeignKey("breeds.id"))
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    breed_id = Column(Integer, ForeignKey("breeds.id", ondelete='CASCADE'))
+    owner_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
 
     breed = relationship("Breed", back_populates="cats")
     owner = relationship("User", back_populates="cats")
     images = relationship("CatImage",
                           back_populates="cat",
                           viewonly=True,
+                          cascade="all",
                           primaryjoin="and_(Cat.id == CatImage.cat_id and CatImage.is_profile == False)"
                           )
 
@@ -37,6 +38,7 @@ class Cat(Base):
                                  back_populates="cat",
                                  uselist=False,
                                  viewonly=True,
+                                 cascade="all",
                                  primaryjoin="and_ (Cat.id == CatImage.cat_id, CatImage.is_profile == True)"
                                  )
 
@@ -55,10 +57,10 @@ class CatImage(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String)
-    cat_id = Column(Integer, ForeignKey("cats.id"))
+    cat_id = Column(Integer, ForeignKey("cats.id", ondelete='CASCADE'))
     is_profile = Column(Boolean, default=False)
-    storage_file_id = Column(Integer, ForeignKey("storage_files.id"))
-    storage_file = relationship("StorageFile", back_populates="cat_image")
+    storage_file_id = Column(Integer, ForeignKey("storage_files.id", ondelete='CASCADE'))
+    storage_file = relationship("StorageFile", back_populates="cat_image", cascade="all, delete")
 
     cat = relationship("Cat", back_populates="images")
 
@@ -68,5 +70,5 @@ class StorageFile(Base):
     id = Column(Integer, primary_key=True, index=True)
     url = Column(String)
 
-    cat_image = relationship("CatImage", back_populates="storage_file")
+    cat_image = relationship("CatImage", back_populates="storage_file", cascade="all")
 
