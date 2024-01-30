@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from fastapi_pagination import add_pagination
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 # from fastapi.security import OAuth2PasswordBearer
 
@@ -21,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount('/storage', StaticFiles(directory='/app/storage/images'), name='static')
 
 # oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
