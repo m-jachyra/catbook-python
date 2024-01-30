@@ -29,9 +29,9 @@ def add_cat_profile_image(cat_id: int, db: Session = Depends(get_db), file: Uplo
 
 @router.get('/profile_image/{cat_id}')
 def get_cat_profile_image(cat_id: int, db: Session = Depends(get_db)):
-    profile_image = cat_images_service.get_cat_profile_image(db, cat_id)
     try:
-        return FileResponse(settings.IMAGES_DIR + profile_image.storage_file.url)
+        cat_image = cat_images_service.get_cat_profile_image(db, cat_id)
+        return cat_image
     except Exception as e:
         raise HTTPException(status_code=404)
     pass

@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from fastapi import HTTPException, File
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from starlette import status
 from core.config import settings
 from data.base_service import BaseService
@@ -45,6 +45,7 @@ class CatImagesService(BaseService[CatImage, CatImageCreate, CatImageUpdate]):
         try:
             return (db.query(self.model).filter(self.model.cat_id == cat_id)
                     .filter(self.model.is_profile == True)
+                    .options(joinedload(CatImage.storage_file))
                     .first())
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
