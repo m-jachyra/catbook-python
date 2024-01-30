@@ -31,7 +31,6 @@ def add_cat_profile_image(cat_id: int, db: Session = Depends(get_db), file: Uplo
 def get_cat_profile_image(cat_id: int, db: Session = Depends(get_db)):
     try:
         cat_image = cat_images_service.get_cat_profile_image(db, cat_id)
-        print(cat_image)
         return cat_image
     except Exception as e:
         raise HTTPException(status_code=404)
