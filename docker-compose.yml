@@ -6,8 +6,7 @@ services:
       context: .
       dockerfile: backend/dockerfile
     command: >
-      ash -c "alembic upgrade head &&
-              gunicorn -k uvicorn.workers.UvicornWorker -b :8888 main:app"
+      ash start.sh
     depends_on:
       - db
     env_file:
