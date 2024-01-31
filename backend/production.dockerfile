@@ -10,4 +10,4 @@ COPY ./backend/app /app
 
 EXPOSE 8000
 
-CMD ["ash", "start.sh"]
+CMD ["sh", "start.sh"]
