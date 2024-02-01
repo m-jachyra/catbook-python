@@ -37,7 +37,6 @@ def create_cat(name: Annotated[str, Form()],
         return cat
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    pass
 
 
 @router.put("/{cat_id}", response_model=Cat)
@@ -58,7 +57,6 @@ def update_cat(cat_id: int,
         return cat
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    pass
 
 
 @router.delete("/{cat_id}")
@@ -68,7 +66,6 @@ def delete_cat(cat_id: int, db: Session = Depends(get_db)):
         return status.HTTP_200_OK
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    pass
 
 
 @router.get("/{cat_id}", response_model=CatRead)

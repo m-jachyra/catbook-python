@@ -16,7 +16,6 @@ def get_list(db: Session = Depends(get_db)):
     breeds = breeds_service.get(db)
 
     return breeds
-    pass
 
 
 @router.post("/")
@@ -26,7 +25,6 @@ def create_breeds(breed: BreedCreate, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Breeds could not be created')
     return status.HTTP_201_CREATED
-    pass
 
 
 @router.put("/")
@@ -36,7 +34,6 @@ def update_breeds(breed_id: int, breed_update: BreedUpdate, db: Session = Depend
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Failed breed update')
     return status.HTTP_200_OK
-    pass
 
 
 @router.delete("/")
@@ -46,4 +43,3 @@ def delete_breeds(breed_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_BAD_REQUEST, detail='Breed can not be deleted')
     return status.HTTP_200_OK
-    pass

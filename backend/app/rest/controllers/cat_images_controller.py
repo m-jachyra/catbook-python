@@ -14,7 +14,6 @@ router = APIRouter()
 @router.get('/{image_name}')
 def get_cat_image(image_name: str):
     return FileResponse(settings.IMAGES_DIR + image_name)
-    pass
 
 
 @router.post('/')
@@ -34,5 +33,4 @@ def get_cat_profile_image(cat_id: int, db: Session = Depends(get_db)):
         return cat_image
     except Exception as e:
         raise HTTPException(status_code=404)
-    pass
 
