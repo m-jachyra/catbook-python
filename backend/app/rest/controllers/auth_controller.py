@@ -55,5 +55,5 @@ def register():
 
 
 @router.get("/me", response_model=User)
-def get_current_user(current_user: User = Depends(get_current_user)):
+def get_current_user(current_user: User = Depends(get_current_active_user)):
     return current_user
