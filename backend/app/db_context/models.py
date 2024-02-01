@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
 from sqlalchemy.orm import relationship
 from db_context.context import Base
 
@@ -64,6 +64,7 @@ class CatImage(Base):
 
     cat = relationship("Cat", back_populates="images")
 
+
 class StorageFile(Base):
     __tablename__ = "storage_files"
 
@@ -72,3 +73,14 @@ class StorageFile(Base):
 
     cat_image = relationship("CatImage", back_populates="storage_file", cascade="all")
 
+
+class RefreshToken(Base):
+    __tablename__ = "refresh_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String, unique=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
+    expiration_date = Column(Date)
+    is_revoked = Column(Boolean, default=False)
+
+    user = relationship("User", back_populates="refresh_tokens")
