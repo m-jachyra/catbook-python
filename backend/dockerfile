@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./backend/app /app
 
-CMD ["gunicorn", "-b", ":8888", "main:app"]
+CMD ["gunicorn", "-b", ":8000", "main:app"]

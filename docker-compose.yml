@@ -14,7 +14,7 @@ services:
     networks:
       - app-network
     ports:
-      - "8888:8888"
+      - "8000:8000"
     volumes:
       - ./backend/app:/app
 
