@@ -16,7 +16,7 @@ def get_cat_image(image_name: str):
     return FileResponse(settings.IMAGES_DIR + image_name)
 
 
-@router.post('/')
+@router.post('/{cat_id}')
 def add_cat_profile_image(cat_id: int, db: Session = Depends(get_db), file: UploadFile = File()):
     try:
         cat_images_service.create_profile_image(db, file, cat_id)
