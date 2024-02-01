@@ -23,6 +23,7 @@ class CatsService(BaseService[Cat, CatCreate, CatUpdate]):
             .options(joinedload(Cat.breed))
             .options(joinedload(Cat.owner))
             .options(joinedload(Cat.profile_image).joinedload(CatImage.storage_file))
+            .order_by(Cat.name)
             .all()
         )
 
