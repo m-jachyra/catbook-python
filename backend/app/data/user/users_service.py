@@ -35,14 +35,17 @@ class UsersService(BaseService[User, UserCreate, UserUpdate]):
             update_data["hashed_password"] = password_hash
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 
-    def authenticate(self, db: Session, *, password: str) -> Optional[User]:
-        user = self.get_by_email
+    def authenticate(self, db: Session, *, email: str, password: str) -> Optional[User]:
+        user = self.get_by_email(db, email=email)
         if not user:
             return None
         if not verify_password(password, user.password_hash):
             return None
 
         return user
+
+    def is_active(self, user: User) -> bool:
+        return user.is_active
 
     def is_admin(self, user: User) -> bool:
         return user.roles == 'admin'

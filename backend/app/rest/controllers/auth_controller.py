@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from data.user.users_service import users_service
-from data.user.user import User
+from data.user.user import User, UserCreate
 from data.breed.breed_service import breeds_service
 from data.auth.models import Token
 from db_context.context import get_db
@@ -41,8 +41,23 @@ def logout(db: Session = Depends(get_db)):
 
 
 @router.post("/register")
-def register():
-    pass
+def register(*, user_in: UserCreate, db: Session = Depends(get_db)) -> Any:
+    """
+    Create new user.
+    """
+    user = users_service.get_by_email(db=db, email=user_in.email)
+    if user:
+        raise HTTPException(
+            status_code=400,
+            detail="The user with this username already exists in the system.",
+        )
+
+    user = crud.create_user(session=session, user_create=user_in)
+    if settings.EMAILS_ENABLED and user_in.email:
+        send_new_account_email(
+            email_to=user_in.email, username=user_in.email, password=user_in.password
+        )
+    return user
 
 
 # @router.put("/change-password")
