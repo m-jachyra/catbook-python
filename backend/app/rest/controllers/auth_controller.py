@@ -7,8 +7,7 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from data.user.users_service import users_service
-from data.user.user import User, UserCreate
-from data.breed.breed_service import breeds_service
+from data.user.user import User, UserCreate, UserUpdate
 from data.auth.models import Token
 from db_context.context import get_db
 from core.config import settings
@@ -52,21 +51,18 @@ def register(*, user_in: UserCreate, db: Session = Depends(get_db)) -> Any:
             detail="The user with this username already exists in the system.",
         )
 
-    user = crud.create_user(session=session, user_create=user_in)
-    if settings.EMAILS_ENABLED and user_in.email:
-        send_new_account_email(
-            email_to=user_in.email, username=user_in.email, password=user_in.password
-        )
+    user = users_service.create(db=db, user_create=user_in)
+
     return user
 
 
-# @router.put("/change-password")
-# def change_password(breed_id: int, breed_update: BreedUpdate, db: Session = Depends(get_db)):
-#     try:
-#         auth_service.update(db=db, breed_id=breed_id, breed_update=breed_update)
-#     except Exception as e:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Failed breed update')
-#     return status.HTTP_200_OK
+@router.put("/change-password")
+def change_password(user_id: int, user_update: UserUpdate, db: Session = Depends(get_db)):
+    try:
+        users_service.update(db=db, user_id=user_id, user_update=user_update)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Failed password update')
+    return status.HTTP_200_OK
 
 
 @router.get("/me", response_model=User)

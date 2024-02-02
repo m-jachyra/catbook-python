@@ -31,7 +31,7 @@ def create_access_token(subject: Union[str, Any], expires_delta: timedelta = Non
     return encoded_jwt
 
 
-def create_refresh_token(subject: Union[str, Any], expires_delta: timedelta = None) -> str:
+def create_refresh_token(db: Session, subject: Union[str, Any], expires_delta: timedelta = None) -> str:
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
@@ -41,6 +41,11 @@ def create_refresh_token(subject: Union[str, Any], expires_delta: timedelta = No
 
     to_encode = {"exp": expire, "sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)
+
+    db_obj = RefreshToken(user_id=subject, token=encoded_jwt)
+    db.add(db_obj)
+    db.commit()
+    db.refresh(db_obj)
 
     return encoded_jwt
 
